@@ -25,6 +25,8 @@ https://kivy.org/doc/stable/gettingstarted/intro.html
 The clock itself will be an instance of a custom class, which will be an array of player clocks. So there are the following elements:
 - a player clock 
 	- some functionality when a given time runs out
+	- functionality when player has passed
 - a global game clock (array of player clocks)
 - a function to change the order or the array
 - a function to start, pause and set initial time
+
