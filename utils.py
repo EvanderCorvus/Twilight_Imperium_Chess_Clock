@@ -8,6 +8,7 @@ class PlayerClock():
         self.is_running = False
         self.player_name = player_name
         self.increment = increment
+
     def start(self):
         if not self.is_running:
             self.is_running = True
@@ -23,11 +24,28 @@ class PlayerClock():
 
 
 class GameClock():
-    def __init__(self, total_time, player_count, player_names, increment = 0):
+    def __init__(self, total_time, player_names, increment = 0):
         self.total_time = total_time*60
         self.remaining_time = total_time*60
-        self.player_count = player_count
+        self.player_count = len(player_names)
         self.player_names = player_names
+        self.current_player = 0
         self.player_clocks = [PlayerClock(player_names[i],
-                                        total_time/player_count,
-                                        increment) for i in range(player_count)]
+                                        total_time/self.player_count,
+                                        increment) for i in range(self.player_count)]
+    
+    # This function expects a list of player names in the new order
+    # This function is called at the end of the strategy phase
+    def set_player_order(self, order):
+        ordered_clocks = []
+        for name in order:
+            for clock in self.player_clocks:
+                if clock.player_name == name:
+                    ordered_clocks.append(clock)
+                    break
+        self.player_clocks = ordered_clocks
+    
+    def turn(self):
+        self.player_clocks[self.current_player].start()
+
+        self.current_player = (self.current_player + 1) % self.player_count

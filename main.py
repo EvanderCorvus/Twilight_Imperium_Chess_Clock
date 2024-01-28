@@ -1,8 +1,6 @@
 import numpy as np
 from utils import *
 
-
-
 player_clock = PlayerClock("Player 1", 0.5)
 
 start_time = time.time() 
