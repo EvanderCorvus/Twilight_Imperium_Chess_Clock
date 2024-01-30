@@ -63,7 +63,11 @@ class GameClock():
                 self.current_player = i
                 self.start_player_turn()
                 break
-    
 
-                
+    def pause_clocks(self):
+        for clock in self.player_clocks:
+            clock.stop()
 
+    def unpass_all_players(self):
+        for clock in self.player_clocks:
+            clock.has_passed = False
