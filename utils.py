@@ -28,6 +28,20 @@ class PlayerClock():
     def pass_turn(self):
         self.has_passed = True
 
+    def broadcast(self):
+        #definitely needs a better condition
+        while self.is_running:
+            # first, format the total time so that it can be displayed as HH:MM:SS
+            mins, secs = divmod(self.total_time, 60)
+            hrs, mins = divmod(mins, 60)
+            hrs, mins, secs = int(hrs), int(mins), int(secs)
+            timeformat = '{:02d}:{:02d}:{:02d}'.format(hrs, mins, secs)
+            # print it and then move the cursor to the start of the liine
+            print(timeformat)
+
+            time.sleep(1)
+            self.total_time -= 1
+
 class GameClock():
     def __init__(self, total_time, player_names, increment = 0):
         self.total_time = total_time*60
