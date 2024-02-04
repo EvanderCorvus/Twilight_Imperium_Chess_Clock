@@ -17,14 +17,24 @@ class PlayerClock():
             self.is_running = True
             self.start_time = time.time()
     
-    def stop(self):
+    def stop(self, use_increment=True):
         if self.is_running:
             elapsed_time = time.time() - self.start_time
-            self.remaining_time -= elapsed_time - self.increment
+            self.remaining_time -= elapsed_time
+            if use_increment:
+                self.remaining_time += self.increment
             self.is_running = False
             if self.remaining_time < 0:
                 raise Exception("{} ran out of time!".format(self.player_name))
-
+    
+    # This function should only be called when the clock is running
+    def broadcast_current_time(self):
+        if self.is_running:
+            elapsed_time = time.time() - self.start_time
+            return self.remaining_time - elapsed_time
+        else:
+            return self.remaining_time
+    
     def pass_turn(self):
         self.has_passed = True
 
@@ -48,6 +58,10 @@ class GameClock():
                     ordered_clocks.append(clock)
                     break
         self.player_clocks = ordered_clocks
+
+        self.current_player = 0
+        for clock in self.player_clocks:
+            clock.has_passed = False
     
     def start_player_turn(self):
         self.player_clocks[self.current_player].start()
@@ -66,8 +80,5 @@ class GameClock():
 
     def pause_clocks(self):
         for clock in self.player_clocks:
-            clock.stop()
+            clock.stop(use_increment=False)
 
-    def unpass_all_players(self):
-        for clock in self.player_clocks:
-            clock.has_passed = False
