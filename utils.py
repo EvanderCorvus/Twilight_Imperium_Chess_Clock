@@ -1,4 +1,3 @@
-import numpy as np
 import time
 
 # Right now the is_running flag is not useful, but maybe it will

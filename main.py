@@ -1,14 +1,17 @@
-import numpy as np
-from utils import *
+from kivy.app import App
+from kivy.uix.screenmanager import ScreenManager
+from screens.setup_screen import SetupScreen
+from screens.game_screen import GameScreen
+from screens.strategy_screen import StrategyScreen
 
-player_clock = PlayerClock("Player 1", 0.5)
+class ClockApp(App):
+    def build(self):
+        sm = ScreenManager()
+        sm.add_widget(SetupScreen(name='setup'))
+        sm.add_widget(StrategyScreen(name='strategy'))
+        sm.add_widget(GameScreen(name='game'))
+        sm.current = 'setup'
+        return sm
 
-start_time = time.time() 
-
-while True:
-    player_clock.start()
-    time.sleep(5)
-    player_clock.stop()
-    print("Remaining time: {}".format(player_clock.remaining_time))
-    if player_clock.remaining_time < 0:
-        break
+if __name__ == '__main__':
+    ClockApp().run()
