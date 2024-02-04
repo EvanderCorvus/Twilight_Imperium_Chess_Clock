@@ -9,13 +9,16 @@ class StrategyScreen(Screen):
     def __init__(self, **kwargs):
         super(StrategyScreen, self).__init__(**kwargs)
         
-
     def initialize_strategy(self, total_time, player_names, increment):
         self.clear_widgets()
         self.player_names = player_names
         self.total_time = total_time
         self.increment = increment
+
         layout = BoxLayout(orientation='vertical')
+        title_label = Label(text='Strategy Phase', size_hint_y=None, height=100, font_size='20sp')
+        layout.add_widget(title_label)
+
         grid = GridLayout(cols=2)
         self.text_inputs = []
 
