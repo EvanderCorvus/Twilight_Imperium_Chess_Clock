@@ -1,6 +1,6 @@
 'use client'
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { useWebSocket } from '@/hooks/useWebSocket';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -27,17 +27,12 @@ const getWebSocketUrl = () => {
 };
 
 
-const Game = () => {
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  const { isConnected, gameState, error, sendMessage } = useWebSocket(getWebSocketUrl());
+export default function GamePage () {
+  const router = useRouter();     //for page routing
+  const { toast } = useToast();   //for error handling I think
+  const { isConnected, gameState, error, sendMessage } = useWebSocket(getWebSocketUrl());     //connection monitoring
 
-  useEffect(() => {
-    const players = localStorage.getItem('ti-players');
-    if (!players) {
-      navigate('/setup');
-    }
-  }, [navigate]);
+
 
   useEffect(() => {
     if (error) {
@@ -169,4 +164,3 @@ const Game = () => {
   );
 };
 
-export default Game
