@@ -1,56 +1,71 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { X } from "lucide-react";
+import {submitPlayers, Player} from "../../lib/gameState"
 
 const FACTIONS = [
   "The Arborec",
+  "The Argent Flight",
   "The Barony of Letnev",
   "The Clan of Saar",
+  "The Council Keleres",
+  "The Crimson Rebellion",
+  "The Deepwrought Scholarate",
   "The Embers of Muaat",
   "The Emirates of Hacan",
+  "The Empyrean",
   "The Federation of Sol",
+  "The Firmament/The Obsidian",
   "The Ghosts of Creuss",
   "The L1Z1X Mindnet",
+  "Last Bastion",
+  "The Mahact Gene-Sorcerers",
   "The Mentak Coalition",
   "The Naalu Collective",
+  "The Naaz-Rokha Alliance",
   "The Nekro Virus",
+  "The Nomad",
+  "The Ral Nel Consortium",
   "Sardakk N'orr",
+  "The Titans of Ul",
   "The Universities of Jol-Nar",
+  "The Vuil'Raith Cabal",
   "The Winnu",
   "The Xxcha Kingdom",
   "The Yin Brotherhood",
   "The Yssaril Tribes",
 ];
 
-interface PlayerSetup {
-  name: string;
-  faction: string;
-}
-
 export default function SetupPage() {
   const router = useRouter();
 
-  const [players, setPlayers] = useState<PlayerSetup[]>([
-    { name: "", faction: "" },
-    { name: "", faction: "" },
-    { name: "", faction: "" },
+  const [players, setPlayers] = useState<Player[]>([
+    { name: "", faction: "", timeRemaining: 10000, strategyCard: undefined, isPassed: false, seatingID: 1 },
+    { name: "", faction: "", timeRemaining: 10000, strategyCard: undefined, isPassed: false, seatingID: 2 },
+    { name: "", faction: "", timeRemaining: 10000, strategyCard: undefined, isPassed: false, seatingID: 3 },
   ]);
 
   const addPlayer = () => {
     if (players.length < 8) {
-      setPlayers([...players, { name: "", faction: "" }]);
+      setPlayers([...players, { 
+        name: "", 
+        faction: "", 
+        timeRemaining: 10000, 
+        strategyCard: null, 
+        isPassed: false, 
+        seatingID: players.length +1 }]);
     }
   };
 
   const removePlayer = (index: number) => {
-    if (players.length > 2) {
+    if (players.length > 3) {
       setPlayers(players.filter((_, i) => i !== index));
     }
   };
@@ -65,16 +80,18 @@ export default function SetupPage() {
     setPlayers(updated);
   };
 
-  const handleStartGame = () => {
+  async function handleStartGame(){
     const validPlayers = players.filter(
       (p) => p.name.trim() && p.faction
     );
 
     if (validPlayers.length > 2) {
-      localStorage.setItem("ti-players", JSON.stringify(validPlayers));
-      router.push("/game");
+      console.log(players)
+      await submitPlayers(players)
+      redirect("/clock");
     }
   };
+
 
   const isValid =
     players.filter((p) => p.name.trim() && p.faction).length > 2;
@@ -98,7 +115,7 @@ export default function SetupPage() {
                       Player {index + 1}
                     </h3>
 
-                    {players.length > 2 && (
+                    {players.length > 3 && (
                       <Button
                         variant="ghost"
                         size="icon"

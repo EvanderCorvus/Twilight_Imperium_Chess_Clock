@@ -26,5 +26,5 @@
       "@/*": ["./app/*"]
     }
   },
-  "include": ["app"]
+  "include": ["app", "lib/utils.ts"]
 }

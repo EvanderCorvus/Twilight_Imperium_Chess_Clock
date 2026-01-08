@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Timer, Users } from "lucide-react";
+import "./globals.css"
 
 export default function Page() {
   const router = useRouter();
