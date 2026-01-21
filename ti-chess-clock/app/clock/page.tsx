@@ -4,7 +4,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Pause, Play } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import ClockDisplay from '@/clock/ClockDisplay';
-import { endTurn, GameState, getGameState, pauseGame, resumeGame } from 'lib/gameState';
+import { GameState } from 'lib/index';
+import { getGameState } from 'lib/server-actions';
 
 
 

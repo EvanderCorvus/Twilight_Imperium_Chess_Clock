@@ -8,59 +8,29 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { X } from "lucide-react";
-import {submitPlayers, Player} from "../../lib/gameState"
+import { Player, Factions} from "lib/index"
+import { submitPlayers } from "lib/server-actions";
 
-const FACTIONS = [
-  "The Arborec",
-  "The Argent Flight",
-  "The Barony of Letnev",
-  "The Clan of Saar",
-  "The Council Keleres",
-  "The Crimson Rebellion",
-  "The Deepwrought Scholarate",
-  "The Embers of Muaat",
-  "The Emirates of Hacan",
-  "The Empyrean",
-  "The Federation of Sol",
-  "The Firmament/The Obsidian",
-  "The Ghosts of Creuss",
-  "The L1Z1X Mindnet",
-  "Last Bastion",
-  "The Mahact Gene-Sorcerers",
-  "The Mentak Coalition",
-  "The Naalu Collective",
-  "The Naaz-Rokha Alliance",
-  "The Nekro Virus",
-  "The Nomad",
-  "The Ral Nel Consortium",
-  "Sardakk N'orr",
-  "The Titans of Ul",
-  "The Universities of Jol-Nar",
-  "The Vuil'Raith Cabal",
-  "The Winnu",
-  "The Xxcha Kingdom",
-  "The Yin Brotherhood",
-  "The Yssaril Tribes",
-];
+
 
 export default function SetupPage() {
   const router = useRouter();
 
   const [players, setPlayers] = useState<Player[]>([
-    { name: "", faction: "", timeRemaining: 10000, strategyCard: undefined, isPassed: false, seatingID: 1 },
-    { name: "", faction: "", timeRemaining: 10000, strategyCard: undefined, isPassed: false, seatingID: 2 },
-    { name: "", faction: "", timeRemaining: 10000, strategyCard: undefined, isPassed: false, seatingID: 3 },
+    { name: "", faction: undefined, timeRemaining: 10000, strategyCard: undefined, isPassed: false, seatingID: 1 },
+    { name: "", faction: undefined, timeRemaining: 10000, strategyCard: undefined, isPassed: false, seatingID: 2 },
+    { name: "", faction: undefined, timeRemaining: 10000, strategyCard: undefined, isPassed: false, seatingID: 3 },
   ]);
 
   const addPlayer = () => {
     if (players.length < 8) {
       setPlayers([...players, { 
         name: "", 
-        faction: "", 
+        faction: undefined, 
         timeRemaining: 10000, 
         strategyCard: null, 
         isPassed: false, 
-        seatingID: players.length +1 }]);
+        seatingID: players.length + 1}]);
     }
   };
 
@@ -73,7 +43,7 @@ export default function SetupPage() {
   const updatePlayer = (
     index: number,
     field: "name" | "faction",
-    value: string
+    value: string 
   ) => {
     const updated = [...players];
     updated[index][field] = value;
@@ -149,7 +119,7 @@ export default function SetupPage() {
                       }
                     >
                       <option value="">Select faction</option>
-                      {FACTIONS.map((faction) => (
+                      {Factions.map((faction) => (
                         <option key={faction} value={faction}>
                           {faction}
                         </option>
